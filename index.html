@@ -16,14 +16,17 @@
       margin: 0;
       font-family: Arial, sans-serif;
     }
+
     .cinematic-btn {
       position: relative;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 550px;
+
+      /* tightened overall width + right side space */
+      width: 500px;
       height: 90px;
-      padding: 0 30px 0 10px;
+      padding: 0 18px 0 10px; /* was 30px right padding */
+
       background: linear-gradient(180deg, #001a9c 0%, #0033cc 50%, #001a9c 100%);
       isolation: isolate;
       border: 2px solid #3388ff;
@@ -97,26 +100,40 @@
       font-size: 38px;
       font-weight: 600;
       letter-spacing: 0.5px;
-      margin-left: 20px;
+
+      /* moved text left */
+      margin-left: 12px; /* was 20px */
+
       flex-grow: 1;
-      text-align: center;
+
+      /* make it feel left-shifted without breaking layout */
+      text-align: left;  /* was center */
+      padding-left: 62px; /* pushes text off the globe area so it still reads centered-ish */
       white-space: nowrap;
     }
 
     .arrow {
       font-size: 42px;
       font-weight: 400;
-      margin-left: 10px;
+
+      /* moved arrow further left */
+      margin-left: 6px; /* was 10px */
+
+      /* pull it away from the right edge */
+      margin-right: 6px;
+
+      line-height: 1;
       display: inline-block;
       animation: arrowMove 1.5s ease-in-out infinite alternate;
     }
 
+    /* shorter travel so it doesn't crash into the border now it's tighter */
     @keyframes arrowMove {
       0% {
         transform: translate(0px, -0.6px);
       }
       100% {
-        transform: translate(10px, -0.6px);
+        transform: translate(8px, -0.6px); /* was 10px */
       }
     }
 
@@ -147,12 +164,23 @@
     }
 
     @media screen and (max-width: 576px) {
+      .cinematic-btn {
+        width: 320px;
+        padding-right: 14px;
+      }
+
       .btn-text {
         font-size: 25px;
+        padding-left: 40px;
       }
 
       .arrow {
         font-size: 30px;
+      }
+
+      @keyframes arrowMove {
+        0% { transform: translate(0px, -0.4px); }
+        100% { transform: translate(6px, -0.4px); }
       }
     }
   </style>
@@ -190,30 +218,4 @@
   </script>
 </body>
 
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
