@@ -7,172 +7,210 @@
 
   <style>
     body {
-      background:#000;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      margin:0;
-      font-family:Arial, sans-serif;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
 
     .cinematic-btn {
-      position:relative;
-      display:flex;
-      align-items:center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-      /* SHORTER WIDTH + LESS DEAD SPACE ON RIGHT */
-      width:490px;
-      height:90px;
-      padding:0 18px 0 10px;
+      /* TIGHTENED */
+      width: 500px;              /* was 550 */
+      height: 90px;
+      padding: 0 18px 0 10px;    /* was 0 30px 0 10px */
 
-      background:linear-gradient(180deg,#001a9c 0%,#0033cc 50%,#001a9c 100%);
-      border:2px solid #3388ff;
-      border-radius:100px;
-      box-shadow:0 0 20px rgba(0,80,255,.7),
-                 inset 0 0 20px rgba(0,0,40,.8);
-      text-decoration:none;
-      overflow:hidden;
-      cursor:pointer;
-      transition:.25s;
+      background: linear-gradient(180deg, #001a9c 0%, #0033cc 50%, #001a9c 100%);
+      isolation: isolate;
+      border: 2px solid #3388ff;
+      border-radius: 100px;
+      box-shadow: 0 0 20px rgba(0, 80, 255, 0.7),
+        inset 0 0 20px rgba(0, 0, 40, 0.8);
+      text-decoration: none;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
     }
 
     .cinematic-btn:hover {
-      transform:scale(1.02);
-      border-color:#4cc9f0;
-      box-shadow:0 0 40px rgba(50,120,255,1);
+      transform: scale(1.02);
+      border-color: #4cc9f0;
+      box-shadow: 0 0 40px rgba(50, 120, 255, 1);
     }
 
     .stars-container {
-      position:absolute;
-      top:0;
-      left:-40px;
-      width:200px;
-      height:100%;
-      pointer-events:none;
-      mask-image:linear-gradient(to right,#000 -100%,transparent 100%);
+      position: absolute;
+      top: 0;
+      left: -40px;
+      width: 200px;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to right, #000 -100%, transparent 100%);
+      mask-image: linear-gradient(to right, #000 -100%, transparent 100%);
     }
 
     .stars-video {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:.9;
-      mix-blend-mode:screen;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      mix-blend-mode: screen;
     }
 
     .globe-frame {
-      position:relative;
-      width:76px;
-      height:76px;
-      border-radius:50%;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.4);
-      background:#000;
-      box-shadow:0 0 15px rgba(0,0,0,.6);
-      flex-shrink:0;
-      z-index:2;
+      position: relative;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: #000;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
     }
 
     .globe-video {
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:180%;
-      height:180%;
-      transform:translate(-50%,-50%);
-      object-fit:cover;
-      pointer-events:none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 180%;
+      height: 180%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    .btn-text,
+    .arrow {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      text-shadow: none;
     }
 
     .btn-text {
-      flex:1;
-      font-size:38px;
-      font-weight:600;
-      color:#fff;
-      white-space:nowrap;
-      text-align:center;
+      font-size: 38px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
 
-      /* TEXT MOVED LEFT */
-      margin-left:12px;
-      transform:translateX(-18px);
-
-      z-index:2;
+      /* TIGHTENED */
+      margin-left: 14px;    /* was 20 */
+      flex-grow: 1;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .arrow {
-      font-size:42px;
-      color:#fff;
-      line-height:1;
-      display:inline-block;
+      font-size: 42px;
+      font-weight: 400;
 
-      /* ARROW MOVED FURTHER LEFT */
-      margin-left:-6px;
-      margin-right:6px;
+      /* TIGHTENED */
+      margin-left: 0px;     /* was 10 */
+      margin-right: 6px;    /* prevents clipping on tighter right edge */
 
-      animation:arrowMove 1.5s ease-in-out infinite alternate;
-      z-index:2;
+      display: inline-block;
+      line-height: 1;
+      animation: arrowMove 1.5s ease-in-out infinite alternate;
     }
 
     @keyframes arrowMove {
-      0%   { transform:translate(0,-1px); }
-      100% { transform:translate(6px,-1px); }
+      0% {
+        transform: translate(0px, -0.6px);
+      }
+      100% {
+        transform: translate(8px, -0.6px); /* was 10px (safer when tighter) */
+      }
     }
 
     .gloss-highlight {
-      position:absolute;
-      bottom:-15px;
-      left:50%;
-      transform:translateX(-50%);
-      width:70%;
-      height:40px;
-      background:radial-gradient(ellipse at center,rgba(50,150,255,.5) 0%,transparent 70%);
-      pointer-events:none;
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 40px;
+      background: radial-gradient(ellipse at center, rgba(50, 150, 255, 0.5) 0%, transparent 70%);
+      z-index: 5;
+      pointer-events: none;
     }
 
-    @media (max-width:576px) {
+    /* HOVER OUTLINE (UNCHANGED / NOT REMOVED) */
+    .cinematic-btn:hover .outline-hover {
+      color: transparent;
+      -webkit-text-stroke: 2px #ffffff;
+      text-stroke: 2px #ffffff;
+      text-shadow: transparent 0px 0px 5px, #FFF 0px 0px 25px, #FFF 0px 0px 20px, 0px 0px 0px rgba(206, 89, 55, 0);
+    }
+
+    .cinematic-btn:hover .outline-hover-arrow {
+      color: transparent;
+      -webkit-text-stroke: 1px #ffffff;
+      text-stroke: 2px #ffffff;
+      text-shadow: transparent 0px 0px 5px, #FFF 0px 0px 25px, #FFF 0px 0px 15px, 0px 0px 0px rgba(206, 89, 55, 0)
+    }
+
+    @media screen and (max-width: 576px) {
       .cinematic-btn {
-        width:330px;
-        padding-right:16px;
+        width: 340px;
+        padding-right: 16px;
       }
 
       .btn-text {
-        font-size:25px;
-        transform:translateX(-12px);
+        font-size: 25px;
+        margin-left: 10px;
       }
 
       .arrow {
-        font-size:30px;
-        margin-left:-4px;
-        margin-right:6px;
+        font-size: 30px;
+        margin-right: 6px;
       }
 
       @keyframes arrowMove {
-        0%   { transform:translate(0,-.5px); }
-        100% { transform:translate(5px,-.5px); }
+        0% { transform: translate(0px, -0.4px); }
+        100% { transform: translate(6px, -0.4px); }
       }
     }
   </style>
 </head>
 
 <body>
-  <a href="https://earthlive.tv/surprise-me" class="cinematic-btn">
+  <a href="https://earthlive.tv/surprise-me" class="cinematic-btn" id="ctaBtn">
     <div class="stars-container">
       <video class="stars-video" autoplay loop muted playsinline>
-        <source src="./video/stars-black-bg.mp4" type="video/mp4">
+        <source src="./video/stars-black-bg.mp4" type="video/mp4" />
       </video>
     </div>
 
     <div class="globe-frame">
       <video class="globe-video" autoplay loop muted playsinline>
-        <source src="./video/globe-loop.mp4" type="video/mp4">
+        <source src="./video/globe-loop.mp4" type="video/mp4" />
       </video>
     </div>
 
-    <div class="btn-text">Take Me Anywhere</div>
-    <div class="arrow">➜</div>
+    <!-- KEEP THESE CLASSES (HOVER WORKS) -->
+    <div class="btn-text outline-hover">Take Me Anywhere</div>
+    <div class="arrow outline-hover-arrow">➜</div>
 
     <div class="gloss-highlight"></div>
   </a>
+
+  <script>
+    const btn = document.getElementById('ctaBtn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      this.style.transform = "scale(0.98)";
+      setTimeout(() => {
+        window.location.href = this.href;
+      }, 200);
+    });
+  </script>
 </body>
 </html>
